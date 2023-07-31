@@ -18,6 +18,10 @@
 
 # Default server configuration
 #
+
+#Limit Acces
+limit_req_zone $binary_remote_addr zone=one:10m rate=6r/m;
+
 server {
 	listen 3000 default_server;
 	listen [::]:3000 default_server;
@@ -52,7 +56,8 @@ server {
                 proxy_set_header Connection 'upgrade';
                 proxy_set_header Host $host;
                 proxy_cache_bypass $http_upgrade;
-                limit_req zone=maxLimit;
+
+		limit_req zone=one;
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
 		try_files $uri $uri/ =404;
